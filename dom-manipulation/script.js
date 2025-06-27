@@ -10,6 +10,50 @@ function saveQuotes() {
   localStorage.setItem("quotes", JSON.stringify(quotes));
 }
 
+// === Populate unique categories in dropdown ===
+function populateCategories() {
+  const dropdown = document.getElementById("categoryFilter");
+  dropdown.innerHTML = '<option value="all">All Categories</option>'; // Reset
+
+  const categories = [...new Set(quotes.map(q => q.category))]; // Unique categories
+  categories.forEach(cat => {
+    const option = document.createElement("option");
+    option.value = cat;
+    option.textContent = cat;
+    dropdown.appendChild(option);
+  });
+
+  // Restore last selected filter
+  const savedCategory = localStorage.getItem("selectedCategory");
+  if (savedCategory) {
+    dropdown.value = savedCategory;
+    filterQuotes(); // show filtered quotes on load
+  }
+}
+
+// === Filter quotes by category ===
+function filterQuotes() {
+  const selected = document.getElementById("categoryFilter").value;
+  localStorage.setItem("selectedCategory", selected); // Persist filter
+
+  const display = document.getElementById("quoteDisplay");
+  const filtered = selected === "all"
+    ? quotes
+    : quotes.filter(q => q.category === selected);
+
+  if (filtered.length === 0) {
+    display.innerHTML = "<p>No quotes in this category.</p>";
+    return;
+  }
+
+  const randomIndex = Math.floor(Math.random() * filtered.length);
+  const quote = filtered[randomIndex];
+  display.innerHTML = `
+    <p><strong>"${quote.text}"</strong></p>
+    <p><em>Category: ${quote.category}</em></p>
+  `;
+}
+
 // Function: Show a random quote
 function showRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -110,6 +154,13 @@ function importFromJsonFile(event) {
 // Event listeners on page load
 window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("newQuote").addEventListener("click", showRandomQuote);
+  document.getElementById("exportBtn").addEventListener("click", exportQuotesToJson);
+
+
+  populateCategories(); // load categories
+  filterQuotes(); // filter on page load if previously selected
+
+
   showRandomQuote(); // Optional: show a quote at start
   createAddQuoteForm(); // ✅ Call the dynamic form creation
 });
