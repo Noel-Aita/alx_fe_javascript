@@ -22,7 +22,7 @@ function showRandomQuote() {
   `;
 
  // Save last viewed quote to sessionStorage
-  sessionStorage.setItem("lastQuote", JSON.stringify(quote))
+  localStorage.getItem("lastQuote", JSON.stringify(quote))
 
 }
 
