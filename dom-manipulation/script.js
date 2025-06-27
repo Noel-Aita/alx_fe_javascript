@@ -7,7 +7,7 @@ const quotes = [
 
 // Save quotes to localStorage
 function saveQuotes() {
-  localStorage.setItem("quotes", JSON.stringify(quotes));
+  localStorage.getItem("quotes", JSON.stringify(quotes));
 }
 
 // Function: Show a random quote
@@ -22,7 +22,7 @@ function showRandomQuote() {
   `;
 
  // Save last viewed quote to sessionStorage
-  sessionStorage.setItem("lastQuote", JSON.stringify(quote))
+  sessionStorage.getItem("lastQuote", JSON.stringify(quote))
 
 }
 
