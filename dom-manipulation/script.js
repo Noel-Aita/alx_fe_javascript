@@ -105,7 +105,7 @@ function createAddQuoteForm() {
   categoryInput.type = "text";
   categoryInput.placeholder = "Enter quote category";
 
-  // Button: Add Quote
+  // Button: Add Quote    //  
   const addButton = document.createElement("button");
   addButton.textContent = "Add Quote";
   addButton.addEventListener("click", addQuote);
