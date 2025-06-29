@@ -198,7 +198,7 @@ function syncQuotes() {
     saveQuotes();                          // Save to localStorage
     populateCategories();                  // Update categories
     filterQuotes();                        // Refresh view
-    alert("✅ Synced with server. New quotes added!");
+    alert("Quotes synced with server!");
   } else {
     console.log("✅ No new server updates.");
   }
