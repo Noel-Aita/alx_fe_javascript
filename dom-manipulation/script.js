@@ -151,6 +151,10 @@ function importFromJsonFile(event) {
   fileReader.readAsText(event.target.files[0]);
 }
 
+function fetchQuotesFromServer() {
+  return serverQuotes;
+}
+
 // Simulated server quote data (pretend this is fetched from a server)
 const serverQuotes = [
   { text: "Server quote 1", category: "Server" },
@@ -161,7 +165,7 @@ function syncWithServer() {
   console.log("🔄 Syncing with server...");
 
   // Simulated fetch from server
-  const serverData = serverQuotes; // simulate fetch()
+  const serverData = fetchQuotesFromServer(); // simulate fetch()
 
   // Compare and merge
   const localTexts = quotes.map(q => q.text);
