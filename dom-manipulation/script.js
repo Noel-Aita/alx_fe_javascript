@@ -151,6 +151,44 @@ function importFromJsonFile(event) {
   fileReader.readAsText(event.target.files[0]);
 }
 
+// Simulated server quote data (pretend this is fetched from a server)
+const serverQuotes = [
+  { text: "Server quote 1", category: "Server" },
+  { text: "Server quote 2", category: "Server" }
+];
+
+function syncWithServer() {
+  console.log("🔄 Syncing with server...");
+
+  // Simulated fetch from server
+  const serverData = serverQuotes; // simulate fetch()
+
+  // Compare and merge
+  const localTexts = quotes.map(q => q.text);
+  let newQuotes = [];
+
+  serverData.forEach(q => {
+    if (!localTexts.includes(q.text)) {
+      newQuotes.push(q);
+    }
+  });
+
+  if (newQuotes.length > 0) {
+    quotes.push(...newQuotes);             // Server wins — add new quotes
+    saveQuotes();                          // Save to localStorage
+    populateCategories();                  // Update categories
+    filterQuotes();                        // Refresh view
+    alert("✅ Synced with server. New quotes added!");
+  } else {
+    console.log("✅ No new server updates.");
+  }
+}
+
+// Call sync every 30 seconds
+setInterval(syncWithServer, 30000);
+
+
+
 // Event listeners on page load
 window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("newQuote").addEventListener("click", showRandomQuote);
@@ -159,6 +197,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   populateCategories(); // load categories
   filterQuotes(); // filter on page load if previously selected
+  syncWithServer(); // Run on load
 
 
   showRandomQuote(); // Optional: show a quote at start
