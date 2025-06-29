@@ -204,6 +204,51 @@ function syncWithServer() {
   }
 }
 
+// ✅ Simulate sending quotes to a server using POST
+async function postQuotesToServer() {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(quotes) // Send all local quotes
+    });
+
+    if (response.ok) {
+      console.log("✅ Quotes successfully posted to server.");
+    } else {
+      console.error("❌ Failed to post quotes.");
+    }
+  } catch (error) {
+    console.error("❌ Error posting quotes:", error);
+  }
+}
+
+
+async function addQuote() {
+  const text = document.getElementById("newQuoteText").value.trim();
+  const category = document.getElementById("newQuoteCategory").value.trim();
+
+  if (!text || !category) {
+    alert("Please fill in both fields.");
+    return;
+  }
+
+  quotes.push({ text, category });
+  saveQuotes();
+  await postQuotesToServer(); // ✅ Post updated quotes to server
+
+  document.getElementById("newQuoteText").value = "";
+  document.getElementById("newQuoteCategory").value = "";
+
+  alert("New quote added and synced with server!");
+  populateCategories();
+  filterQuotes();
+}
+
+
+
 // Call sync every 30 seconds
 setInterval(syncWithServer, 30000);
 
