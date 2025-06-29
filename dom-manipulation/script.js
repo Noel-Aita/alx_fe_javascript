@@ -151,9 +151,25 @@ function importFromJsonFile(event) {
   fileReader.readAsText(event.target.files[0]);
 }
 
-function fetchQuotesFromServer() {
-  return serverQuotes;
+// ✅ Now using real async fetch to simulate a server call
+async function fetchQuotesFromServer() {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const data = await response.json();
+
+    // Convert fetched posts to quote format
+    const serverQuotes = data.slice(0, 5).map(post => ({
+      text: post.title,
+      category: "Server"
+    }));
+
+    return serverQuotes;
+  } catch (error) {
+    console.error("Failed to fetch from server:", error);
+    return [];
+  }
 }
+
 
 // Simulated server quote data (pretend this is fetched from a server)
 const serverQuotes = [
@@ -165,7 +181,7 @@ function syncWithServer() {
   console.log("🔄 Syncing with server...");
 
   // Simulated fetch from server
-  const serverData = fetchQuotesFromServer(); // simulate fetch()
+  const serverData = await fetchQuotesFromServer(); // simulate fetch()
 
   // Compare and merge
   const localTexts = quotes.map(q => q.text);
