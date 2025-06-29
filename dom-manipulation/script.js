@@ -177,7 +177,7 @@ const serverQuotes = [
   { text: "Server quote 2", category: "Server" }
 ];
 
-function syncWithServer() {
+function syncQuotes() {
   console.log("🔄 Syncing with server...");
 
   // Simulated fetch from server
@@ -250,7 +250,7 @@ async function addQuote() {
 
 
 // Call sync every 30 seconds
-setInterval(syncWithServer, 30000);
+setInterval(syncQuotes, 30000);
 
 
 
